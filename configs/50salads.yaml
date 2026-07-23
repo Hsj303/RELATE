@@ -1,0 +1,14 @@
+# 50Salads (Stein & McKenna, 2013) -- 50 videos, 17 classes, avg. 6.4 min / video.
+dataset: 50salads
+sample_rate: 2                     # 30fps features downsampled to 15fps
+background_class_ids: []           # no background class for 50Salads
+num_layers: 10
+num_f_maps: 64
+features_dim: 1024
+num_stages: 3
+channel_mask_rate: 0.3
+epochs: 100
+lr: 0.0005                         # paper Sec. 4.1.2: 5e-4 on 50Salads
+gamma: 0.5
+temperature: 2.0
+refine_threshold: 0.7

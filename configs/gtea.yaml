@@ -1,0 +1,14 @@
+# GTEA (Fathi et al., 2011) -- 28 videos, 11 classes, avg. 37s / video.
+dataset: gtea
+sample_rate: 1
+background_class_ids: [10]        # index of the "background" action
+num_layers: 10
+num_f_maps: 64
+features_dim: 1024                # per modality (RGB or OF); I3D
+num_stages: 3
+channel_mask_rate: 0.3
+epochs: 100
+lr: 0.001                          # paper Sec. 4.1.2: 1e-3 on GTEA
+gamma: 0.5                         # CMKD loss weight
+temperature: 2.0
+refine_threshold: 0.7              # delta, Sec. 4.1.2

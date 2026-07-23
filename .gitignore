@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Environments
+.venv/
+venv/
+env/
+
+# Data & checkpoints (large, dataset-specific -- do not commit)
+data/
+runs/
+*.pt
+*.model
+*.npy
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+*.swp
