@@ -1,22 +1,6 @@
-# RELATE: Distill, Suppress, and Fuse
+# RELATE
 
-Official code for **"Distill, Suppress, and Fuse: Cross-Modal Knowledge
-Integration for Optical Flow-Free Temporal Action Segmentation"**
-(ICML 2026).
-
-RELATE (RGB-based action s**E**gmentation with a**L**ignment g**ATE**d
-fusion) does temporal action segmentation from **RGB frames only** at
-inference time. During training, it distills motion knowledge from an
-optical-flow teacher, but — unlike prior cross-modal distillation methods —
-it selectively **suppresses** transferred cues that are misaligned with the
-video's action structure instead of blindly absorbing all of them. The
-result matches two-stream (RGB + optical flow) accuracy while being
-**~175x faster** at inference, since no optical flow is ever computed.
-
-<p align="center">
-  <img src="https://img.shields.io/badge/ICML-2026-blue" alt="ICML 2026">
-  <img src="https://img.shields.io/badge/license-MIT-green" alt="MIT License">
-</p>
+Official code for **"Distill, Suppress, and Fuse: Cross-Modal Knowledge Integration for Optical Flow-Free Temporal Action Segmentation"** (ICMLW 2026).
 
 
 ## Installation
@@ -27,12 +11,12 @@ cd RELATE
 pip install -r requirements.txt
 ```
 
-Requires Python 3.10+ and PyTorch 2.0+. A GPU is recommended for training
+Requires Python 3.9+ and PyTorch 2.x. A GPU is recommended for training
 but not required to run the tests.
 
 ## Data preparation
 
-RELATE is evaluated on **GTEA**, **50Salads**, and **Breakfast**, using
+RELATE is evaluated on GTEA, 50Salads, and Breakfast, using
 2048-d I3D features (1024-d RGB + 1024-d optical flow) laid out as:
 
 ```
@@ -42,11 +26,8 @@ data/<dataset>/mapping.txt
 data/<dataset>/splits/train.split<K>.bundle
 data/<dataset>/splits/test.split<K>.bundle
 ```
+The datasets can be downloaded in https://github.com/yabufarha/ms-tcn.git 
 
-This is the same layout used by the public MS-TCN / ASFormer releases. See
-[`docs/external_dependencies.md`](docs/external_dependencies.md) for how to
-extract I3D features and optical flow (these are external, published tools
-and are not part of this repository).
 
 ## Usage
 
@@ -79,11 +60,8 @@ python scripts/train.py \
     --epochs 100 --lr 0.001 --gamma 0.5
 ```
 
-Reference hyperparameters per dataset (from Sec. 4.1.2) are in
-[`configs/`](configs/). `--fusion concat` and `--distill {rkd,gcr}` reproduce
-the Table 3 / Table 4 ablations.
 
-**4. Run RGB-only inference** (no optical flow needed):
+**4. Run RGB-only inference**
 
 ```bash
 python scripts/predict.py \
@@ -102,40 +80,16 @@ python scripts/evaluate.py \
     --pred-dir ./runs/gtea/split_1/predictions
 ```
 
-## Testing
-
-```bash
-pytest tests/ -v
-```
-
-The test suite is CPU-only and needs no dataset — it checks that the
-dual-branch pipeline, Alignment Fusion Transformer, distillation losses,
-prediction refinement, and metrics all wire together and produce the
-expected tensor shapes.
-
 ## Citation
 
-```bibtex
 @inproceedings{han2026relate,
   title     = {Distill, Suppress, and Fuse: Cross-Modal Knowledge Integration
                for Optical Flow-Free Temporal Action Segmentation},
   author    = {Han, Seungjin and Kim, Gyeong-hyeon and Kim, Eunwoo},
-  booktitle = {Proceedings of the 43rd International Conference on Machine
-               Learning (ICML)},
-  volume    = {306},
-  publisher = {PMLR},
+  booktitle = {AdaptFM: Resource-Adaptive Foundation Model Inference
+               (ICML 2026 Workshop)},
   year      = {2026}
 }
-```
-
-## Acknowledgements
-
-This research was supported in part by the Chung-Ang University Graduate
-Research Scholarship in 2023 and in part by the Institute of Information &
-Communications Technology Planning & Evaluation (IITP) grant funded by the
-Korea government (MSIT) (2021-0-01341, Artificial Intelligence Graduate
-School Program, Chung-Ang University).
-
 ## License
 
 MIT — see [LICENSE](LICENSE). The MS-TCN- and ASFormer-derived backbone
