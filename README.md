@@ -1,7 +1,8 @@
 # RELATE
 
-Official code for **"Distill, Suppress, and Fuse: Cross-Modal Knowledge Integration for Optical Flow-Free Temporal Action Segmentation"** (ICMLW 2026).
+Official code for "Distill, Suppress, and Fuse: Cross-Modal Knowledge Integration for Optical Flow-Free Temporal Action Segmentation" (ICMLW 2026).
 
+![RELATE architecture](docs/images/architecture.png)
 
 ## Installation
 
