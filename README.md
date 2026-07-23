@@ -32,9 +32,8 @@ The datasets can be downloaded in https://github.com/yabufarha/ms-tcn.git
 ## Usage
 
 **1. Pretrain the optical-flow teacher** (`RefSegmenter`) on optical-flow
-I3D features only, with a plain segmentation loss — any standard MS-TCN /
-ASFormer training loop works, since the teacher has no RELATE-specific
-components. Save its checkpoint as `<ckpt>.pt`.
+I3D features only, with a plain segmentation loss. Any standard MS-TCN /
+ASFormer training loop works with RELATE. Save its checkpoint as `<ckpt>.pt`.
 
 **2. (Optional) Pretrain the modality bridge**, if you want the flow branch
 to receive bridged RGB->OF features instead of raw RGB (Sec. 3.1):
