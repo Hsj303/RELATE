@@ -1,6 +1,6 @@
 # RELATE
 
-This repo contains code for training RGB-based action segmentation with alignment gated fusion (RELATE) framework from our work "Distill, Suppress, and Fuse: Cross-Modal Knowledge Integration for Optical Flow-Free Temporal Action Segmentation" (ICMLW 2026). Please see [our paper](https://openreview.net/pdf?id=iyIftYYjlE) for more detailed information.
+This repo contains code for training RGB-based action segmentation with alignment gated fusion (RELATE) framework from our work "Distill, Suppress, and Fuse: Cross-Modal Knowledge Integration for Optical Flow-Free Temporal Action Segmentation" (ICMLW 2026). Please see [our paper](https://icml.cc/virtual/2026/75181) for more detailed information.
 
 ![RELATE architecture](docs/RELATE_fig.png)
 
