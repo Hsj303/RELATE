@@ -82,6 +82,7 @@ python scripts/evaluate.py \
 
 ## Citation
 
+```
 @inproceedings{han2026relate,
   title     = {Distill, Suppress, and Fuse: Cross-Modal Knowledge Integration
                for Optical Flow-Free Temporal Action Segmentation},
@@ -90,6 +91,7 @@ python scripts/evaluate.py \
                (ICML 2026 Workshop)},
   year      = {2026}
 }
+```
 ## License
 
 MIT — see [LICENSE](LICENSE). The MS-TCN- and ASFormer-derived backbone
