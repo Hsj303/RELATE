@@ -1,6 +1,6 @@
 # RELATE
 
-This repo contains code for training RGB-based action segmentation with alignment gated fusion (RELATE) framework from our work "Distill, Suppress, and Fuse: Cross-Modal Knowledge Integration for Optical Flow-Free Temporal Action Segmentation" (ICMLW 2026). Please see our paper for more detailed information.
+This repo contains code for training RGB-based action segmentation with alignment gated fusion (RELATE) framework from our work "Distill, Suppress, and Fuse: Cross-Modal Knowledge Integration for Optical Flow-Free Temporal Action Segmentation" (ICMLW 2026). Please see [our paper](https://openreview.net/pdf?id=iyIftYYjlE) for more detailed information.
 
 ![RELATE architecture](docs/RELATE_fig.png)
 
@@ -12,8 +12,6 @@ cd RELATE
 pip install -r requirements.txt
 ```
 
-Requires Python 3.9+ and PyTorch 2.x. A GPU is recommended for training
-but not required to run the tests.
 
 ## Data preparation
 
@@ -33,8 +31,8 @@ The datasets can be downloaded in https://github.com/yabufarha/ms-tcn.git (offic
 ## Usage
 
 **1. Pretrain the optical-flow teacher** (`RefSegmenter`) on optical-flow
-I3D features only, with a plain segmentation loss. Any standard MS-TCN /
-ASFormer training loop works with RELATE. Save its checkpoint as `<ckpt>.pt`.
+I3D features only, with a plain segmentation loss. Any standard [MS-TCN](https://arxiv.org/abs/1903.01945) /
+[ASFormer](https://arxiv.org/abs/2110.08568) training loop works with RELATE. Save its checkpoint as `<ckpt>.pt`.
 
 **2. (Optional) Pretrain the modality bridge**, if you want the flow branch
 to receive bridged RGB->OF features instead of raw RGB (Sec. 3.1):
