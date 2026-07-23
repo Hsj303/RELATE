@@ -6,7 +6,7 @@ Official code for **"Distill, Suppress, and Fuse: Cross-Modal Knowledge Integrat
 ## Installation
 
 ```bash
-git clone <this-repo-url>
+git clone https://github.com/Hsj303/RELATE
 cd RELATE
 pip install -r requirements.txt
 ```
