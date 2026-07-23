@@ -27,7 +27,7 @@ data/<dataset>/mapping.txt
 data/<dataset>/splits/train.split<K>.bundle
 data/<dataset>/splits/test.split<K>.bundle
 ```
-The datasets can be downloaded in https://github.com/yabufarha/ms-tcn.git 
+The datasets can be downloaded in https://github.com/yabufarha/ms-tcn.git (official MS-TCN github)
 
 
 ## Usage
