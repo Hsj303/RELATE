@@ -18,61 +18,6 @@ result matches two-stream (RGB + optical flow) accuracy while being
   <img src="https://img.shields.io/badge/license-MIT-green" alt="MIT License">
 </p>
 
-## Method overview
-
-| Paper section | What it does | Code |
-|---|---|---|
-| 3.1 Dual-Branch Pipeline | Independent RGB/flow-student/teacher segmenters | [`relate/segmenters.py`](relate/segmenters.py), [`relate/modality_bridge.py`](relate/modality_bridge.py) |
-| 3.2 Alignment Fusion Transformer (Eq. 1) | Action-gated attention that suppresses misaligned cues before fusing modalities | [`relate/alignment_fusion.py`](relate/alignment_fusion.py) |
-| 3.3 Training Objective | `L = L_RGB + L_OF + L_J + gamma * L_CMKD` | [`relate/losses.py`](relate/losses.py) |
-| 3.4 Prediction Refinement | Training-free confidence-based refinement of the joint prediction | [`relate/refinement.py`](relate/refinement.py) |
-| 4.1.1 Evaluation metrics | Segmental F1@{10,25,50}, Edit, frame accuracy | [`relate/metrics.py`](relate/metrics.py) |
-
-```
-                Flow Branch (student, CMKD-supervised)
-RGB frames ─┬─▶ RGBSegmenter ──────────────┐
-            │                              ▼
-            └─▶ ModalityBridge ─▶ FlowSegmenter ─▶ AlignmentFusionTransformer ─▶ JointSegmenter ─▶ PredictionRefinement ─▶ labels
-                                        ▲
-Optical flow (train only) ─▶ RefSegmenter (teacher, frozen)
-```
-
-### Action-Gated Attention (Eq. 1)
-
-For each modality, action anchors `a_i` are obtained by average-pooling
-query embeddings over each *predicted* segment. Keys are gated by their
-similarity to the anchors before being used to modulate the values:
-
-```
-A = sigmoid( sum_i (K ⊙ a_i) / sqrt(d) )
-Z~ = A ⊙ V
-```
-
-This is what lets RELATE keep informative transferred motion cues while
-suppressing the ones that don't align with the action structure — see
-`relate/alignment_fusion.py::AlignmentFusionTransformer._action_gated_attention`.
-
-## Repository layout
-
-```
-relate/
-  layers.py             # AttLayer, AttModule, positional encoding, feed-forwards
-  backbones.py           # MS-TCN and ASFormer stage implementations
-  segmenters.py           # RGBSegmenter / FlowSegmenter / RefSegmenter / JointSegmenter
-  alignment_fusion.py     # Alignment Fusion Transformer + Table 3 fusion ablations
-  modality_bridge.py      # RGB -> optical-flow feature bridge (Sec. 3.1)
-  losses.py                # segmentation loss + KD / RKD / GCR (Table 4)
-  metrics.py                # F1@{10,25,50}, Edit, frame accuracy
-  refinement.py              # training-free prediction refinement (Sec. 3.4)
-  data.py                    # I3D-feature batch generator
-scripts/
-  train.py    # trains RGB + Flow (student) + Joint segmenters and the AFT
-  predict.py  # RGB-only inference, with optional prediction refinement
-  evaluate.py # computes F1 / Edit / Acc from saved predictions
-configs/      # reference hyperparameters per dataset (Sec. 4.1.2)
-tests/        # CPU-only smoke tests (shapes, forward passes, no data needed)
-docs/external_dependencies.md  # I3D extraction, TV-L1 flow, FACT backbone
-```
 
 ## Installation
 
@@ -167,32 +112,6 @@ The test suite is CPU-only and needs no dataset — it checks that the
 dual-branch pipeline, Alignment Fusion Transformer, distillation losses,
 prediction refinement, and metrics all wire together and produce the
 expected tensor shapes.
-
-## Notes on this release
-
-This repository is a cleaned-up version of the original research code:
-
-- Hardcoded absolute paths were replaced with CLI arguments / config files.
-- `batch_gen.py` and `eval.py` were referenced by the original scripts but
-  not included in the source archive; `relate/data.py` and
-  `relate/metrics.py` are clean reimplementations of the standard
-  MS-TCN-style interfaces they exposed. If your original files differ, they
-  can be dropped in as long as they expose the same interface.
-- The prediction refinement step (Sec. 3.4) was implemented (`utils.py`)
-  but not wired into the original inference loop; it is enabled by default
-  in `scripts/predict.py` here.
-- A shape inconsistency between the MS-TCN and ASFormer feature outputs
-  (which broke `AlignmentFusionTransformer` for the ASFormer backbone) was
-  fixed in `relate/backbones.py` / `relate/segmenters.py`.
-- Experimental code not described in the paper (an additional C2KD-based
-  distillation variant, a Gram-Schmidt feature booster, a few unused
-  visualization/analysis utilities) was left out for clarity. The three
-  distillation methods reported in Table 4 (KD, RKD, GCR) are included in
-  `relate/losses.py`.
-- The FACT backbone (third segmenter in Table 1) is an external, separately
-  licensed repository and is not vendored here — see
-  [`docs/external_dependencies.md`](docs/external_dependencies.md) for how
-  to plug it in. MS-TCN and ASFormer are fully implemented.
 
 ## Citation
 
